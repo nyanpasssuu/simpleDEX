@@ -1,0 +1,22 @@
+//SPDX-License-Identifier: UNLICENSED
+pragma solidity ^0.8.0;
+
+contract SimpleDEX {
+
+  mapping(address => uint) public tokenBalances;
+
+  function addLiquidity(uint _amount) external {
+    tokenBalances[msg.sender] += _amount;
+  }
+
+  function getBalance(address _user) view external returns (uint) {
+    return tokenBalances[_user];
+  }
+
+  function makeTrade(address _receiver, uint _amount) external {
+    require(tokenBalances[msg.sender] >= _amount, "Insufficient balance");
+    tokenBalances[msg.sender] -= _amount;
+    tokenBalances[_receiver] += _amount;
+  }
+
+}
